@@ -40,7 +40,7 @@ void *memcpy_c_v2(void *dst, const void *src, size_t num)
         p64_dst = (unsigned long int *) dst;
         p64_src = (unsigned long int *) src;
         
-        for (i = 0; i < (num / sizeof(unsigned long int)); i++) {
+        for (i = 0; i < cnt; i++) {
             *p64_dst = *p64_src;
             p64_dst++;
             p64_src++;
@@ -49,13 +49,19 @@ void *memcpy_c_v2(void *dst, const void *src, size_t num)
         if (!rem)
             return dst;
     }
-    
+
     /* Copy remaining bytes */
     if (rem) {
-        p_dst = (unsigned char *) dst;
-        p_src = (unsigned char *) src;
+        /* Decrement pointers if necessary */
+        if (cnt) {
+            p64_dst--;
+            p64_src--;
+        }
+
+        p_dst = (unsigned char *) p64_dst;
+        p_src = (unsigned char *) p64_src;
         
-        for (i = 0; i < (num / sizeof(unsigned long int)); i++) {
+        for (i = 0; i < rem; i++) {
             *p_dst = *p_src;
             p_dst++;
             p_src++;
