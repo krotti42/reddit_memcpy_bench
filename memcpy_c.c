@@ -56,11 +56,13 @@ void *memcpy_c_v2(void *dst, const void *src, size_t num)
         if (cnt) {
             p64_dst--;
             p64_src--;
+            p_dst = (unsigned char *) p64_dst;
+            p_src = (unsigned char *) p64_src;
+        } else {
+            p_dst = (unsigned char *) dst;
+            p_src = (unsigned char *) src;
         }
 
-        p_dst = (unsigned char *) p64_dst;
-        p_src = (unsigned char *) p64_src;
-        
         for (i = 0; i < rem; i++) {
             *p_dst = *p_src;
             p_dst++;
